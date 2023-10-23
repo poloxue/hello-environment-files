@@ -128,6 +128,7 @@ alias lg="exa --icons --long --header --all --git"
 
 # Alias for zoxide
 alias cd="z"
+alias cg='find_cd() {z $(fd --type directory ${1:-${pwd}} $2 | fzf)}; find_cd'
 
 # Configurations for zsh-vi-mode
 # Always starting with insert mode for command line.
