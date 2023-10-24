@@ -90,7 +90,9 @@ plugins=(
   you-should-use
 )
 
+
 source $ZSH/oh-my-zsh.sh
+
 
 # User configuration
 
@@ -126,13 +128,25 @@ alias ll="exa --icons --long --header"
 alias lg="exa --icons --long --header --all"
 alias lg="exa --icons --long --header --all --git"
 
-# Alias for zoxide
-alias cd="z"
-alias cg='find_cd() {z $(fd --type directory ${1:-${pwd}} $2 | fzf)}; find_cd'
+# Aliax for cd
+alias cdg='cd_global() {cd $(fd --type directory $1 $2 | fzf)}; cd_global'
+
+# Alias for nvim
+alias vim="nvim"
 
 # Configurations for zsh-vi-mode
 # Always starting with insert mode for command line.
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+
+# The plugin will auto execute this zvm_after_init function
+function zvm_after_init() {
+  bindkey -M viins '^P' history-substring-search-up
+  bindkey -M viins '^N' history-substring-search-down
+  bindkey -M vicmd '^P' history-substring-search-up
+  bindkey -M vicmd '^N' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-up
+}
 
 # Configurations for plugin `you-should-use`
 export YSU_MESSAGE_POSITION="after"
@@ -151,11 +165,11 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 # bindkey '^[[A' history-substring-search-up
 # bindkey '^[[B' history-substring-search-down
 
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-up
+# bindkey '^P' history-substring-search-up
+# bindkey '^N' history-substring-search-up
 
 eval "$(tmuxifier init -)"
-eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh --cmd cd)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
